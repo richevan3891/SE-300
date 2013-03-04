@@ -44,8 +44,8 @@ public class Route_addroute_dialogue extends JFrame {
 	
 	
 	// Constructor for the dialogue box
-	public Route_addroute_dialogue(String[] Carriers, String[] Airports) {
-		
+	public Route_addroute_dialogue(String[] Airports) {
+		String[] Carriers = {"Delta", "United"};
 		// Initialize all input boxes and drop-down menus
 		JTextField Routenumtxt = new JTextField("0");
 		JTextField Pricetxt = new JTextField("0.00");
@@ -114,16 +114,14 @@ public class Route_addroute_dialogue extends JFrame {
 	}
 	
 	// Main method for testing the class
-	public static void main(String[] args){
-		String[] Carriers = {"Delta", "Southwest", "United"};
-		String[] Airports = {"OMA", "DAB", "MCO"};
+	public void showDialogue (String[] airports){
 		
-		Route_addroute_dialogue Test = new Route_addroute_dialogue(Carriers, Airports);
+		Route_addroute_dialogue Test = new Route_addroute_dialogue(airports);
 		
-		//Test.setSize(500,650);									// Set the size
+		Test.setSize(600,200);									// Edited by Evan R.
 		Test.setLocationRelativeTo(null);						// Center it on the screen
-		Test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// If click the exit, close it
 		Test.setVisible(true);									// Make it visible
+		Test.setResizable(false);			// Added by Evan R.
 		
 	}
 	

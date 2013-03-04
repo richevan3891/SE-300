@@ -6,20 +6,21 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main {
+public class Main implements ActionListener{
 	JFrame frame;
 	Dimension totalSize;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Main gui = new Main();
 		gui.go();		
 	}
-	public void go() {
-		DefaultRouteTable route = new DefaultRouteTable();
+	public void go() throws IOException {
+		//DefaultRouteTable route = new DefaultRouteTable();
 		//System.out.println(route.routeInfo());
-		route.routeInfo();
+		//route.routeInfo();
 		totalSize = Toolkit.getDefaultToolkit().getScreenSize();	// getting screen size
 		int width = totalSize.width;
 		int height = totalSize.height;
@@ -34,14 +35,25 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 	}
 
-	public JPanel Panels() {
-		//JScrollPane scroll = new JScrollPane();
-		//scroll.getVerticalScrollBar();
+	public JPanel Panels() throws IOException {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JScrollPane routePanel = new JScrollPane();
-		routePanel.setPreferredSize(new Dimension((totalSize.width * 3 / 4) * 1 / 2, totalSize.height / 3));
+		
+		String[] columnNames = {"Route #",
+                "Carrier",
+                "Dep. Airport",
+                "Dep. Time",
+                "Arr. Airport",
+                "Arr. Time",
+                "Price"};
+		FileInput input = new FileInput();
+		ArrayList routesInfo = input.routeArrayList(input.routesToken);
+		Object[][] data = input.convertArrayListTo2DArray(routesInfo);
+		 
+		JPanel routePanel = new JPanel();
+		JScrollPane routeTable = new JScrollPane(new JTable(data, columnNames));
+		routeTable.setPreferredSize(new Dimension((totalSize.width * 3 / 4) * 48 / 100, totalSize.height / 3));
+		routePanel.add(routeTable);
 		routePanel.setBorder(BorderFactory.createTitledBorder("Route Table"));
-		//routePanel.add(scroll);
 		//------------------------------------------------end of route table--------------------------------------------------------
 		JPanel histPanel = new JPanel();
 		histPanel.setPreferredSize(new Dimension(totalSize.width, totalSize.height / 5));
@@ -181,7 +193,19 @@ public class Main {
 	}
 	class RouteAddListener implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-	
+			ArrayList airports;
+			String[] airportsArray;
+			FileInput data = null;
+			try {
+				data = new FileInput();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			airports = data.airportArrayList((data.airportsToken));
+			airportsArray = data.convertArrayListToArray(airports);
+			Route_addroute_dialogue routeDialog = new Route_addroute_dialogue(airportsArray);
+			routeDialog.showDialogue(airportsArray);
 		}
 	}
 	class RouteRemoveListener implements ActionListener{
@@ -243,5 +267,8 @@ public class Main {
 		public void actionPerformed(ActionEvent event) {
 
 		}
+	}
+	public void actionPerformed(ActionEvent arg0) {
+
 	}
 }

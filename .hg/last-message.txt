@@ -1,3 +1,0 @@
-Revision 0 with basic GUI functionality. 
-Contains menu bar and various
-panel separation.
