@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -25,7 +26,8 @@ public class Main implements ActionListener {
 	static ArrayList<String[]> routesInfo;
 	static ArrayList<String> airportsInfo;
 	static ArrayList<String[]> closuresInfo;
-	//int addRouteCount = 0;
+	
+	static TextArea historyArea;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -86,6 +88,7 @@ public class Main implements ActionListener {
 		catch (NullPointerException e1) { //If input.txt is blank
 		}
 
+		
 		JTable routeTable = new JTable(data, columnNames){
 			public boolean isCellEditable(int rowIndex, int vColIndex) {
 				return false;
@@ -105,6 +108,10 @@ public class Main implements ActionListener {
 
 		histPanel.setPreferredSize(new Dimension(totalSize.width, totalSize.height / 5));
 		histPanel.setBorder(BorderFactory.createTitledBorder("History"));
+		historyArea = new TextArea();
+		historyArea.setEditable(false);
+		historyArea.setPreferredSize(new Dimension(totalSize.width * 7 / 10, totalSize.height / 7));
+		histPanel.add(historyArea);
 		//------------------------------------------------end of history table--------------------------------------------------------
 		resultsPanel.setPreferredSize(new Dimension((totalSize.width * 3 / 4) * 49 / 100, totalSize.height / 3));
 		resultsPanel.setBorder(BorderFactory.createTitledBorder("Search Results"));
