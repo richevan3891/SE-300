@@ -1,0 +1,23 @@
+#comment Air Route Planner data
+#comment date:3/29/13
+
+
+#airports
+ATL
+DCA
+ORL
+JFK
+
+#routes
+R001,  DELTA,  ATL,  0800,  JFK,  1100,  184.00 
+R005,  DELTA,  ORL,  0820,  ATL,  0930,  125.00
+R006,  UNITED,  ORL,  0730,  DCA,  1100,  230.00
+
+
+#closures
+A, B, C
+a, b, c
+aa, bb, cc
+AA, BB, CC
+
+#end
