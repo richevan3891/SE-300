@@ -658,8 +658,8 @@ public class Main implements ActionListener {
 		boolean airportSame = true;
 		boolean closuresSame = true;
 		if (origRoutes.length == routesList.length) {
-			for (int i = 0; i < origRoutes.length-1; i++) {
-				for (int j = 0; j < origRoutes[i].length-1; j++) {
+			for (int i = 0; i < origRoutes.length; i++) {
+				for (int j = 0; j < origRoutes[i].length; j++) {
 					if (!(routesList[i][j].equals(origRoutes[i][j]))) {
 						routeSame = false;
 						break;
@@ -775,7 +775,7 @@ public class Main implements ActionListener {
 		for (int i  = 0; i < routesInfo.size(); i++) {
 			
 			//set to open by default
-			routesInfo.get(i)[7] = "on time";
+			routesInfo.get(i)[7] = "true";
 			
 			for (int j = 0; j < closuresInfo.size(); j++) {
 				
@@ -784,14 +784,14 @@ public class Main implements ActionListener {
 					//check if the departure time of the new closure is in between the start and end times of the existing closure
 					if (Integer.parseInt(routesInfo.get(i)[3]) <= Integer.parseInt(closuresInfo.get(j)[2]) && 
 							Integer.parseInt(routesInfo.get(i)[3]) >= Integer.parseInt(closuresInfo.get(j)[1])) {
-						routesInfo.get(i)[7] = "canceled";
+						routesInfo.get(i)[7] = "false";
 					}
 				}
 				else if (routesInfo.get(i)[4].equals(closuresInfo.get(j)[0])) {
 					//check if the arrival time of the new closure is in between the start and end times of the existing closure
 					if (Integer.parseInt(routesInfo.get(i)[5]) <= Integer.parseInt(closuresInfo.get(j)[2]) &&
 							Integer.parseInt(routesInfo.get(i)[5]) >= Integer.parseInt(closuresInfo.get(j)[1])) {
-						routesInfo.get(i)[7] = "canceled";
+						routesInfo.get(i)[7] = "false";
 					}
 				}
 			}		

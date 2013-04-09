@@ -245,7 +245,7 @@ public class Route_findpath_dialogue extends JDialog {
 			}
 			
 			// Check to see if the route is cancelled due to airport closures
-			if (thisRoute[7].equalsIgnoreCase("canceled")){
+			if (thisRoute[7].equalsIgnoreCase("false")){
 				notCancelled = false;
 			}
 			

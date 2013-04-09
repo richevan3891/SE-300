@@ -172,7 +172,7 @@ public class FileInput {
 					}
 				}
 				//set the 8th value to true by default
-				route[7] = "On time";
+				route[7] = "true";
 				
 				//check that route number is in the correct format (Rxyz) where xyz are numbers only
 				Scanner routeNumScanner = new Scanner(route[0]);		
