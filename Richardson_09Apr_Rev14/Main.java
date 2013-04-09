@@ -90,8 +90,9 @@ public class Main implements ActionListener {
 			routesInfo = sortRouteArray(routesInfo);
 			airportsInfo = input.airportArrayList(input.airportsToken);
 			closuresInfo = input.closureArrayList(input.closuresToken);
+			routesInfo = routeClosureStatus(routesInfo, closuresInfo);
 
-			//If one section has an error (is null) set all sections to null and lock all routes and airprots menu items
+			//If one section has an error (is null) set all sections to null and lock all routes and airports menu items
 			if (airportsInfo == null) {
 				routesInfo = null;
 				closuresInfo = null;
@@ -249,6 +250,7 @@ public class Main implements ActionListener {
 					routesInfo = sortRouteArray(routesInfo);
 					airportsInfo = input.airportArrayList(input.airportsToken);
 					closuresInfo = input.closureArrayList(input.closuresToken);
+					routesInfo = routeClosureStatus(routesInfo, closuresInfo);
 
 					//If one section has an error (is null) set all sections to null and lock all routes and airprots menu items
 					if (airportsInfo == null) {
@@ -344,7 +346,7 @@ public class Main implements ActionListener {
 				//addRouteCount = 1;
 				String[] airportsArray;		// create empty array that will be used for the method that finds the airports list
 				String[] routesArray;
-				routesArray = routesArrayList(routesInfo);
+				routesArray = routeNumArray(routesInfo);
 				airportsArray = convertAirportArrayListToArray(airportsInfo);	// call airportsArrayList method to get list of airports
 
 				Route_addroute_dialogue routeDialog = new Route_addroute_dialogue(airportsArray, routesArray);
@@ -360,7 +362,7 @@ public class Main implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (systemLocked == false) {
 				String[] routesArray;
-				routesArray = routesArrayList(routesInfo);
+				routesArray = routeNumArray(routesInfo);
 				Route_removeroute_dialogue removeDialog = new Route_removeroute_dialogue(routesArray);
 				removeDialog.showDialogue(routesArray);
 			}
@@ -376,7 +378,7 @@ public class Main implements ActionListener {
 				String[] airportsArray;		// create empty array that will be used for the method that finds the airports list
 				airportsArray = convertAirportArrayListToArray(airportsInfo);	// call airportsArrayList method to get list of airports
 				String[] routesArray;
-				routesArray = routesArrayList(routesInfo);
+				routesArray = routeNumArray(routesInfo);
 				Route_searchroute_dialogue searchDialog = new Route_searchroute_dialogue(airportsArray, routesArray);
 				searchDialog.showDialogue(airportsArray, routesArray);
 			}
@@ -475,7 +477,7 @@ public class Main implements ActionListener {
 				String[] airportsArray;		// create empty array that will be used for the method that finds the airports list
 				airportsArray = convertAirportArrayListToArray(airportsInfo);	// call airportsArrayList method to get list of airports
 				String[] routesArray;
-				routesArray = routesArrayList(routesInfo);
+				routesArray = routeNumArray(routesInfo);
 				Airport_Route_Search APSearch = new Airport_Route_Search();
 				APSearch.showDialogue(airportsArray, routesArray);
 			}
@@ -519,12 +521,6 @@ public class Main implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 
 	}
-	// this method is used to determine the list of routes from routesInfo
-	public String[] routesArrayList(ArrayList<String[]> routesInfo) {
-		String[] routesArray = null;
-		routesArray = convertRoutesArrayListToArray(routesInfo);
-		return routesArray;
-	}
 
 	//Method to convert an arrayList to a 2D array, should only be used for the routes or closures arrayLists 
 	//IMPORTANT: for routesOrClosures, enter 0 if using this method for closures, 1 for routes
@@ -534,7 +530,7 @@ public class Main implements ActionListener {
 
 		//Create 2d array with the same number of  the same size as the arrayList
 		if (routesOrClosures > 0) {
-			theArray = new String[arrayList.size()][7]; //For routes, 7 columns
+			theArray = new String[arrayList.size()][8]; //For routes, 7 columns
 		}
 		else if (routesOrClosures < 1) {
 			theArray = new String[arrayList.size()][3]; //For closures, 3 columns
@@ -551,7 +547,7 @@ public class Main implements ActionListener {
 
 	// This method converts the routes in such a way so that the route numbers can only be displayed in the drop down 
 	// menu when attempting to remove a route.
-	String[] convertRoutesArrayListToArray(ArrayList routesArrayList) {
+	String[] routeNumArray(ArrayList routesArrayList) {
 		String[] theArray = new String[routesArrayList.size()];
 		String[] tempArray = null;
 		for (int i = 0; i < routesArrayList.size(); i++) {
@@ -660,10 +656,11 @@ public class Main implements ActionListener {
 			String[][] origClosures, String[][] closuresList) {
 		boolean routeSame = true;
 		boolean airportSame = true;
-		boolean closuresSame = true;
-		if (origRoutes.length == routesList.length) {
+		boolean closuresSame = true;		
+		
+		if ((origRoutes.length) == routesList.length) {			
 			for (int i = 0; i < origRoutes.length; i++) {
-				for (int j = 0; j < origRoutes[i].length; j++) {
+				for (int j = 0; j < origRoutes[i].length - 1; j++) {
 					if (!(routesList[i][j].equals(origRoutes[i][j]))) {
 						routeSame = false;
 						break;
@@ -674,7 +671,7 @@ public class Main implements ActionListener {
 		else {
 			routeSame = false;
 		}
-		if (origAirports.length == airportsList.length) {
+		if ((origAirports.length) == airportsList.length) {
 			for (int i = 0; i < origAirports.length; i++) {
 				if (!(origAirports[i].equals(airportsList[i]))) {
 					airportSame = false;
@@ -685,7 +682,7 @@ public class Main implements ActionListener {
 		else {
 			airportSame = false;
 		}
-		if (origClosures.length == closuresList.length) {
+		if ((origClosures.length) == closuresList.length) {
 			for (int i = 0; i < origClosures.length; i++) {
 				for (int j = 0; j < origClosures[i].length; j++) {
 					if (!(closuresList[i][j].equals(origClosures[i][j]))) {
@@ -769,6 +766,37 @@ public class Main implements ActionListener {
 				}
 			}	
 		}
+		return routesInfo;
+	}
+	
+	//check the closures status of routes
+	static ArrayList<String[]> routeClosureStatus(ArrayList<String[]> routesInfo, ArrayList<String[]> closuresInfo) {
+		
+		//check that the airport is not already closed during this time
+		for (int i  = 0; i < routesInfo.size(); i++) {
+			
+			//set to open by default
+			routesInfo.get(i)[7] = "true";
+			
+			for (int j = 0; j < closuresInfo.size(); j++) {
+				
+				//check if the airports match
+				if (routesInfo.get(i)[2].equals(closuresInfo.get(j)[0]) ) {
+					//check if the departure time of the new closure is in between the start and end times of the existing closure
+					if (Integer.parseInt(routesInfo.get(i)[3]) <= Integer.parseInt(closuresInfo.get(j)[2]) && 
+							Integer.parseInt(routesInfo.get(i)[3]) >= Integer.parseInt(closuresInfo.get(j)[1])) {
+						routesInfo.get(i)[7] = "false";
+					}
+				}
+				else if (routesInfo.get(i)[4].equals(closuresInfo.get(j)[0])) {
+					//check if the arrival time of the new closure is in between the start and end times of the existing closure
+					if (Integer.parseInt(routesInfo.get(i)[5]) <= Integer.parseInt(closuresInfo.get(j)[2]) &&
+							Integer.parseInt(routesInfo.get(i)[5]) >= Integer.parseInt(closuresInfo.get(j)[1])) {
+						routesInfo.get(i)[7] = "false";
+					}
+				}
+			}		
+		}		
 		return routesInfo;
 	}
 }
