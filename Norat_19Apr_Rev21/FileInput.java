@@ -109,7 +109,7 @@ public class FileInput {
 
 				//check that there are no duplicate airports
 				for (int i = 0; i < airportsInfo.size(); i++) {
-					if (airport.equals(airportsInfo.get(i))) {
+					if (airport.toUpperCase().equals(airportsInfo.get(i))) {
 						airportError = 1;
 					}
 				}
